@@ -1,0 +1,34 @@
+services:
+  mariadb:
+    image: mariadb:10.6
+    container_name: mariadb1
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Bundes9898
+      MYSQL_DATABASE: inventory_service
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Bundes9898
+    ports:
+      - "3308:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin1
+    restart: always
+    depends_on:
+      - mariadb
+    environment:
+      PMA_HOST: mariadb1
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: Bundes9898
+      UPLOAD_LIMIT: 64M
+    ports:
+      - "8089:80"
+
+
+volumes:
+  mariadb_data:
