@@ -1,18 +1,32 @@
 package com.akentech.microservices.inventory;
 
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.lang.NonNull;
+import org.springframework.test.context.support.TestPropertySourceUtils;
 import org.testcontainers.containers.MariaDBContainer;
-import org.testcontainers.utility.DockerImageName;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-@TestConfiguration(proxyBeanMethods = false)
-class TestcontainersConfiguration {
+@Testcontainers
+public class TestcontainersConfiguration implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-	@Bean
-	@ServiceConnection
-	MariaDBContainer<?> mariaDbContainer() {
-		return new MariaDBContainer<>(DockerImageName.parse("mariadb:latest"));
+	private static final MariaDBContainer<?> mariaDBContainer = new MariaDBContainer<>("mariadb:10.6")
+			.withDatabaseName("testdb")
+			.withUsername("testuser")
+			.withPassword("testpass");
+
+	static {
+		mariaDBContainer.start();
+		Runtime.getRuntime().addShutdownHook(new Thread(mariaDBContainer::stop));
 	}
 
+	@Override
+	public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
+		TestPropertySourceUtils.addInlinedPropertiesToEnvironment(
+				applicationContext,
+				"spring.datasource.url=" + mariaDBContainer.getJdbcUrl(),
+				"spring.datasource.username=" + mariaDBContainer.getUsername(),
+				"spring.datasource.password=" + mariaDBContainer.getPassword()
+		);
+	}
 }
