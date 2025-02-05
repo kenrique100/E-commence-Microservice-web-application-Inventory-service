@@ -1,7 +1,7 @@
 services:
   mariadb:
     image: mariadb:10.6
-    container_name: mariadb1
+    container_name: inventory-service-mariadb
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: Bundes9898
@@ -21,7 +21,7 @@ services:
     depends_on:
       - mariadb
     environment:
-      PMA_HOST: mariadb1
+      PMA_HOST: inventory-service-mariadb
       PMA_PORT: 3306
       PMA_USER: root
       PMA_PASSWORD: Bundes9898
