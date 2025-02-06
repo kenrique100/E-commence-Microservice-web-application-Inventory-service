@@ -13,6 +13,13 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
       - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pBundes9898" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    networks:
+      - my-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -28,7 +35,29 @@ services:
       UPLOAD_LIMIT: 64M
     ports:
       - "8089:80"
+    networks:
+      - my-network
 
+  flyway:
+    image: flyway/flyway:11.0.0
+    container_name: inventory-service-flyway
+    restart: always
+    depends_on:
+      - mariadb
+    command: [
+      "-url=jdbc:mariadb://inventory-service-mariadb:3306/inventory_service?useSSL=false", # Use service name and internal port
+      "-user=root",
+      "-password=Bundes9898",
+      "migrate"
+    ]
+    volumes:
+      - ./resources/db/migration:/flyway/sql
+    networks:
+      - my-network
 
 volumes:
   mariadb_data:
+
+networks:
+  my-network:
+    driver: bridge
