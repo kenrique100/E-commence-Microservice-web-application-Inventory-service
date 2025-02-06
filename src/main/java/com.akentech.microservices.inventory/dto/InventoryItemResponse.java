@@ -4,10 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * DTO (Data Transfer Object) representing an inventory item.
- * Used to return inventory item details from the API.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

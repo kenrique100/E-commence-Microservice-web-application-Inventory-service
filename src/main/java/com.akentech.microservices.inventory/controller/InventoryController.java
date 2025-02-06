@@ -29,7 +29,6 @@ public class InventoryController {
     public List<InventoryItemResponse> getAllInventoryItems() {
         return inventoryService.getAllInventoryItems();
     }
-
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public InventoryItemResponse getInventoryItemById(@PathVariable Long id) {
