@@ -1,8 +1,8 @@
 package com.akentech.microservices.inventory.service.impl;
 
+import com.akentech.microservices.common.dto.InventoryRequest;
+import com.akentech.microservices.common.dto.InventoryResponse;
 import com.akentech.microservices.inventory.dto.InventoryItemResponse;
-import com.akentech.microservices.inventory.dto.InventoryRequest;
-import com.akentech.microservices.inventory.dto.InventoryResponse;
 import com.akentech.microservices.inventory.exception.InvalidQuantityException;
 import com.akentech.microservices.inventory.exception.ResourceNotFoundException;
 import com.akentech.microservices.inventory.model.Inventory;
@@ -24,7 +24,7 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public InventoryResponse checkInventory(InventoryRequest inventoryRequest) {
         if (!InventoryUtil.isQuantityValid(inventoryRequest.getQuantity())) {
-            throw new InvalidQuantityException("Invalid quantity: Quantity must be non-null and greater than or equal to 0.");
+            throw new InvalidQuantityException("Invalid quantity: Quantity must be non-null and >= 0");
         }
 
         boolean isInStock = inventoryRepository.existsBySkuCodeAndQuantityGreaterThanEqual(

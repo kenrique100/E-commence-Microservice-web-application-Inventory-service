@@ -1,8 +1,7 @@
 package com.akentech.microservices.inventory.controller;
 
+import com.akentech.microservices.common.dto.InventoryRequest;
 import com.akentech.microservices.inventory.dto.InventoryItemResponse;
-import com.akentech.microservices.inventory.dto.InventoryRequest;
-import com.akentech.microservices.inventory.dto.InventoryResponse;
 import com.akentech.microservices.inventory.service.InventoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,15 +19,18 @@ public class InventoryController {
 
     @PostMapping("/check")
     @ResponseStatus(HttpStatus.OK)
-    public InventoryResponse checkInventory(@Valid @RequestBody InventoryRequest inventoryRequest) {
+    public com.akentech.microservices.common.dto.InventoryResponse checkInventory(
+            @Valid @RequestBody InventoryRequest inventoryRequest) {
         return inventoryService.checkInventory(inventoryRequest);
     }
 
+    // Rest of the methods remain same
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<InventoryItemResponse> getAllInventoryItems() {
         return inventoryService.getAllInventoryItems();
     }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public InventoryItemResponse getInventoryItemById(@PathVariable Long id) {
