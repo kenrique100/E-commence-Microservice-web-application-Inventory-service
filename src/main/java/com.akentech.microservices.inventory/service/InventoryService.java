@@ -1,8 +1,8 @@
 package com.akentech.microservices.inventory.service;
 
+import com.akentech.microservices.common.dto.InventoryRequest;
+import com.akentech.microservices.common.dto.InventoryResponse;
 import com.akentech.microservices.inventory.dto.InventoryItemResponse;
-import com.akentech.microservices.inventory.dto.InventoryRequest;
-import com.akentech.microservices.inventory.dto.InventoryResponse;
 
 import java.util.List;
 
@@ -11,4 +11,5 @@ public interface InventoryService {
     List<InventoryItemResponse> getAllInventoryItems();
     InventoryItemResponse getInventoryItemById(Long id);
     InventoryItemResponse getInventoryItemBySkuCode(String skuCode);
+    void deleteInventoryItem(Long id);
 }
