@@ -1,6 +1,6 @@
 package com.akentech.microservices.inventory;
 
-import com.akentech.microservices.inventory.dto.InventoryRequest;
+import com.akentech.microservices.common.dto.InventoryRequest;
 import com.akentech.microservices.inventory.model.Inventory;
 import com.akentech.microservices.inventory.repository.InventoryRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -83,7 +83,7 @@ public class InventoryServiceApplicationTests {
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(objectMapper.writeValueAsString(request)))
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.message").value("Invalid quantity: Quantity must be non-null and greater than or equal to 0."));
+				.andExpect(jsonPath("$.errors.quantity").value("Quantity must be at least 0"));
 	}
 
 	/**
