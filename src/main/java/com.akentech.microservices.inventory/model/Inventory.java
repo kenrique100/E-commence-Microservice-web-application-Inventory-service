@@ -19,7 +19,7 @@ import lombok.Setter;
 public class Inventory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String skuCode;
