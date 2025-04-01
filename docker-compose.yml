@@ -4,10 +4,10 @@ services:
     container_name: mariadb1
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: Bundes9898
+      MYSQL_ROOT_PASSWORD:
       MYSQL_DATABASE: inventory_service
-      MYSQL_USER: root
-      MYSQL_PASSWORD: Bundes9898
+      MYSQL_USER:
+      MYSQL_PASSWORD:
     ports:
       - "3308:3306"
     volumes:
@@ -23,8 +23,8 @@ services:
     environment:
       PMA_HOST: mariadb1
       PMA_PORT: 3306
-      PMA_USER: root
-      PMA_PASSWORD: Bundes9898
+      PMA_USER:
+      PMA_PASSWORD:
       UPLOAD_LIMIT: 64M
     ports:
       - "8089:80"
